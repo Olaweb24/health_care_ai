@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Health Tips - HealthCare AI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">
+                <i class="fas fa-lightbulb me-2"></i>Personalized Health Tips
+            </h2>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- AI Insight Banner -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 bg-gradient-primary text-white">
+            <div class="card-body text-center py-4">
+                <h4 class="mb-2">
+                    <i class="fas fa-brain me-2"></i>AI-Powered Health Insights
+                </h4>
+                <p class="mb-0 opacity-75">
+                    These personalized recommendations are generated based on your lifestyle data, health profile, and current trends.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Health Tips by Category -->
+<div class="row">
+    {% if tips %}
+        {% for category, category_tips in tips.items() %}
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header {% if category == 'nutrition' %}bg-success{% elif category == 'exercise' %}bg-primary{% elif category == 'sleep' %}bg-info{% elif category == 'mental_health' %}bg-warning{% else %}bg-secondary{% endif %} text-white">
+                    <h5 class="mb-0">
+                        {% if category == 'nutrition' %}
+                            <i class="fas fa-apple-alt me-2"></i>Nutrition
+                        {% elif category == 'exercise' %}
+                            <i class="fas fa-dumbbell me-2"></i>Exercise & Fitness
+                        {% elif category == 'sleep' %}
+                            <i class="fas fa-moon me-2"></i>Sleep & Recovery
+                        {% elif category == 'mental_health' %}
+                            <i class="fas fa-heart me-2"></i>Mental Health
+                        {% else %}
+                            <i class="fas fa-shield-alt me-2"></i>Preventive Care
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for tip in category_tips %}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <div class="tip-marker {% if category == 'nutrition' %}bg-success{% elif category == 'exercise' %}bg-primary{% elif category == 'sleep' %}bg-info{% elif category == 'mental_health' %}bg-warning{% else %}bg-secondary{% endif %}"></div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="mb-0">{{ tip }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <!-- No tips available -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted mb-3">Getting Your Personalized Tips Ready</h4>
+                    <p class="text-muted mb-4">
+                        Start logging your daily lifestyle data to receive AI-powered health recommendations 
+                        tailored specifically for you.
+                    </p>
+                    <a href="{{ url_for('lifestyle_log') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus-circle me-2"></i>Log Your First Entry
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- General Health Information -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2 text-info"></i>General Health Guidelines
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-primary">Daily Health Goals</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                7-9 hours of quality sleep
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                30+ minutes of physical activity
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                8 glasses of water daily
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                5 servings of fruits & vegetables
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-warning">Important Reminders</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                Always consult healthcare professionals
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                This is not medical diagnosis
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                Seek help for persistent symptoms
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                Emergency: call local emergency services
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <div class="btn-group" role="group">
+            <a href="{{ url_for('lifestyle_log') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i>Log Today's Data
+            </a>
+            <a href="{{ url_for('alerts') }}" class="btn btn-warning">
+                <i class="fas fa-bell me-1"></i>Check Health Alerts
+            </a>
+            <a href="{{ url_for('chatbot') }}" class="btn btn-info">
+                <i class="fas fa-robot me-1"></i>Ask AI Assistant
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}HealthCare AI - Your Personal Health Companion{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-gradient text-white py-5 mb-5 rounded">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-heartbeat text-danger me-3"></i>
+            Welcome to HealthCare AI
+        </h1>
+        <p class="lead mb-4">
+            Your intelligent companion for preventive healthcare and wellness tracking.
+            Get personalized health insights powered by AI.
+        </p>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3 px-4 py-2">
+                    <i class="fas fa-user-plus me-2"></i>Get Started
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4 py-2">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h2 class="text-primary mb-3">Empowering Your Health Journey</h2>
+            <p class="lead text-muted">
+                Supporting UN Sustainable Development Goal 3: Ensure healthy lives and promote well-being for all
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-brain fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-primary">AI-Powered Insights</h5>
+                        <p class="card-text text-muted">
+                            Get personalized health recommendations based on your lifestyle, habits, and location using advanced AI technology.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-success bg-gradient text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-success">Lifestyle Tracking</h5>
+                        <p class="card-text text-muted">
+                            Monitor your daily sleep, exercise, nutrition, and hydration with beautiful charts and weekly summaries.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-warning bg-gradient text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-warning">Location-Based Alerts</h5>
+                        <p class="card-text text-muted">
+                            Receive real-time health alerts based on your location's weather conditions and disease outbreak information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-info bg-gradient text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-robot fa-2x"></i>
+                        </div>
+                        <h5 class="card-title text-info">AI Health Assistant</h5>
+                        <p class="card-text text-muted">
+                            Chat with our intelligent health assistant for instant answers to your health and wellness questions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <div class="card bg-light border-0">
+                <div class="card-body p-4">
+                    <h4 class="text-primary mb-3">Ready to Transform Your Health?</h4>
+                    <p class="text-muted mb-4">
+                        Join thousands of users who are taking control of their health with AI-powered insights and personalized recommendations.
+                    </p>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-rocket me-2"></i>Start Your Journey
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

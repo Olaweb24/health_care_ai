@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - HealthCare AI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">
+                <i class="fas fa-tachometer-alt me-2"></i>Health Dashboard
+            </h2>
+            <div class="text-muted">
+                <i class="fas fa-calendar-alt me-1"></i>{{ moment().format('MMMM DD, YYYY') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+                <div class="stat-icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-2">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <h6 class="card-title text-muted">Avg Sleep</h6>
+                <h4 class="text-primary mb-0">
+                    {% if recent_logs %}
+                        {{ "%.1f"|format(recent_logs|map(attribute='sleep_hours')|sum / recent_logs|length) }}h
+                    {% else %}
+                        {{ profile.sleep_hours }}h
+                    {% endif %}
+                </h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+                <div class="stat-icon bg-success bg-gradient text-white rounded-circle mx-auto mb-2">
+                    <i class="fas fa-running"></i>
+                </div>
+                <h6 class="card-title text-muted">Avg Exercise</h6>
+                <h4 class="text-success mb-0">
+                    {% if recent_logs %}
+                        {{ "%.0f"|format(recent_logs|map(attribute='exercise_minutes')|sum / recent_logs|length) }}min
+                    {% else %}
+                        0min
+                    {% endif %}
+                </h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+                <div class="stat-icon bg-info bg-gradient text-white rounded-circle mx-auto mb-2">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h6 class="card-title text-muted">Avg Water</h6>
+                <h4 class="text-info mb-0">
+                    {% if recent_logs %}
+                        {{ "%.0f"|format(recent_logs|map(attribute='water_glasses')|sum / recent_logs|length) }} glasses
+                    {% else %}
+                        0 glasses
+                    {% endif %}
+                </h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+                <div class="stat-icon bg-warning bg-gradient text-white rounded-circle mx-auto mb-2">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h6 class="card-title text-muted">Days Logged</h6>
+                <h4 class="text-warning mb-0">{{ recent_logs|length }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Charts Section -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-area me-2 text-primary"></i>Weekly Activity Overview
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="lifestyleChart" height="100"></canvas>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a href="{{ url_for('lifestyle_log') }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-plus-circle me-2"></i>Log Today's Data
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('health_tips') }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-lightbulb me-2"></i>View Health Tips
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('chatbot') }}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-robot me-2"></i>Ask AI Assistant
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Personalized Tips -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-gradient bg-primary text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-brain me-2"></i>AI Health Insights
+                </h6>
+            </div>
+            <div class="card-body">
+                {% if health_tips %}
+                    <ul class="list-unstyled mb-0">
+                        {% for tip in health_tips[:3] %}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <div class="tip-icon bg-light rounded-circle">
+                                        <i class="fas fa-lightbulb text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="mb-0 small">{{ tip }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('health_tips') }}" class="btn btn-sm btn-outline-primary">
+                            View All Tips <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted small mb-0">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Start logging your lifestyle data to receive personalized health insights.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Location Alerts -->
+        {% if location_alerts %}
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-gradient bg-warning text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-map-marker-alt me-2"></i>Location Health Alerts
+                </h6>
+            </div>
+            <div class="card-body">
+                {% for alert in location_alerts[:2] %}
+                <div class="alert alert-{{ alert.type }} alert-sm mb-2">
+                    <h6 class="alert-heading small mb-1">{{ alert.title }}</h6>
+                    <p class="mb-0 small">{{ alert.message }}</p>
+                </div>
+                {% endfor %}
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('alerts') }}" class="btn btn-sm btn-outline-warning">
+                        View All Alerts <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Profile Summary -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="fas fa-user me-2 text-secondary"></i>Profile Summary
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-2 text-center">
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <strong class="text-primary">{{ profile.age }}</strong>
+                            <br><small class="text-muted">Age</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <strong class="text-success">{{ profile.gender|title }}</strong>
+                            <br><small class="text-muted">Gender</small>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <div class="border rounded p-2">
+                            <strong class="text-info">{{ profile.location }}</strong>
+                            <br><small class="text-muted">Location</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+// Initialize dashboard charts
+document.addEventListener('DOMContentLoaded', function() {
+    loadLifestyleChart();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Health Alerts - HealthCare AI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>Health Alerts & Recommendations
+            </h2>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Status Banner -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 {% if alerts and alerts|selectattr('type', 'equalto', 'danger')|list %}bg-danger{% elif alerts and alerts|selectattr('type', 'equalto', 'warning')|list %}bg-warning{% else %}bg-success{% endif %} text-white">
+            <div class="card-body text-center py-3">
+                <h5 class="mb-0">
+                    {% if alerts and alerts|selectattr('type', 'equalto', 'danger')|list %}
+                        <i class="fas fa-exclamation-circle me-2"></i>High Priority Alerts Active
+                    {% elif alerts and alerts|selectattr('type', 'equalto', 'warning')|list %}
+                        <i class="fas fa-exclamation-triangle me-2"></i>Health Advisories Active
+                    {% else %}
+                        <i class="fas fa-check-circle me-2"></i>No Critical Alerts - Stay Healthy!
+                    {% endif %}
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Active Alerts -->
+{% if alerts %}
+<div class="row">
+    {% for alert in alerts %}
+    <div class="col-lg-6 mb-4">
+        <div class="card border-0 shadow-sm h-100 {% if alert.type == 'danger' %}border-danger{% elif alert.type == 'warning' %}border-warning{% else %}border-info{% endif %}">
+            <div class="card-header {% if alert.type == 'danger' %}bg-danger{% elif alert.type == 'warning' %}bg-warning{% else %}bg-info{% endif %} text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">
+                        {% if alert.type == 'danger' %}
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                        {% elif alert.type == 'warning' %}
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle me-2"></i>
+                        {% endif %}
+                        {{ alert.get('title', 'Health Alert') }}
+                    </h6>
+                    {% if alert.get('category') %}
+                    <span class="badge bg-light text-dark">{{ alert.category }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ alert.get('message', 'No details available.') }}</p>
+                
+                {% if alert.get('recommendations') %}
+                <div class="mt-3">
+                    <h6 class="text-primary">
+                        <i class="fas fa-lightbulb me-1"></i>Recommended Actions:
+                    </h6>
+                    <ul class="list-unstyled">
+                        {% for recommendation in alert.recommendations %}
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>{{ recommendation }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-light">
+                <small class="text-muted">
+                    <i class="fas fa-clock me-1"></i>
+                    Updated: {{ moment().format('MMM DD, YYYY - HH:mm') }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<!-- No alerts -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-shield-alt fa-4x text-success mb-4"></i>
+                <h3 class="text-success mb-3">All Clear!</h3>
+                <p class="text-muted mb-4">
+                    No health alerts for your location at this time. Keep up your healthy lifestyle!
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card bg-light border-0">
+                            <div class="card-body">
+                                <h6 class="text-primary mb-3">Stay Prepared</h6>
+                                <p class="small text-muted mb-3">
+                                    Continue monitoring your health and stay updated with location-based alerts.
+                                    We'll notify you of any changes in your area.
+                                </p>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ url_for('lifestyle_log') }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus me-1"></i>Log Health Data
+                                    </a>
+                                    <a href="{{ url_for('health_tips') }}" class="btn btn-sm btn-success">
+                                        <i class="fas fa-lightbulb me-1"></i>Health Tips
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- General Health Reminders -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="fas fa-heart text-danger me-2"></i>General Health Reminders
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <div class="reminder-icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-2">
+                                <i class="fas fa-hand-paper"></i>
+                            </div>
+                            <h6 class="text-primary">Hand Hygiene</h6>
+                            <p class="small text-muted">Wash hands regularly with soap for 20+ seconds</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <div class="reminder-icon bg-success bg-gradient text-white rounded-circle mx-auto mb-2">
+                                <i class="fas fa-mask"></i>
+                            </div>
+                            <h6 class="text-success">Stay Protected</h6>
+                            <p class="small text-muted">Follow local health guidelines and recommendations</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3">
+                            <div class="reminder-icon bg-info bg-gradient text-white rounded-circle mx-auto mb-2">
+                                <i class="fas fa-thermometer-half"></i>
+                            </div>
+                            <h6 class="text-info">Monitor Health</h6>
+                            <p class="small text-muted">Track symptoms and seek help when needed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Emergency Information -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-phone me-2"></i>Emergency Information
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-danger">When to Seek Immediate Help:</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-1"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Severe difficulty breathing</li>
+                            <li class="mb-1"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Persistent chest pain or pressure</li>
+                            <li class="mb-1"><i class="fas fa-exclamation-triangle text-warning me-2"></i>High fever with severe symptoms</li>
+                            <li class="mb-1"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Loss of consciousness</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-info">Important Contacts:</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-1"><strong>Emergency Services:</strong> Your local emergency number</li>
+                            <li class="mb-1"><strong>Poison Control:</strong> Your local poison control center</li>
+                            <li class="mb-1"><strong>Healthcare Provider:</strong> Your primary care physician</li>
+                            <li class="mb-1"><strong>Mental Health Crisis:</strong> Your local crisis hotline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
