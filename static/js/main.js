@@ -63,11 +63,14 @@ function setupEventListeners() {
     
     // Loading states for buttons
     document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function() {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        form.addEventListener('submit', function(e) {
+            // Only show loading if form is valid
+            if (form.checkValidity()) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                }
             }
         });
     });
