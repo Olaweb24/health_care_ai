@@ -109,7 +109,7 @@ def dashboard():
     # Get personalized health tips
     health_tips = health_ai.get_personalized_tips(profile, recent_logs)
     
-    # Get location-based alerts
+    # Get location-based alerts with better error handling
     location_alerts = []
     if profile.get('location'):
         try:
@@ -118,12 +118,14 @@ def dashboard():
                 location_alerts = health_ai.get_location_based_alerts(weather_data, profile)
         except Exception as e:
             logging.error(f"Error getting weather alerts: {e}")
+            location_alerts = []
     
     return render_template('dashboard.html', 
                          profile=profile, 
                          recent_logs=recent_logs,
                          health_tips=health_tips,
-                         location_alerts=location_alerts)
+                         location_alerts=location_alerts,
+                         moment=datetime)
 
 @app.route('/lifestyle_log', methods=['GET', 'POST'])
 def lifestyle_log():

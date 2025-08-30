@@ -38,15 +38,15 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, var(--medical-blue), var(--primary-color));
-    color: white !important;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: var(--primary-color) !important;
 }
 
 .hero-section h1,
 .hero-section p,
 .hero-section .lead {
-    color: white !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color) !important;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 /* Cards */
@@ -294,28 +294,28 @@ body {
 
 /* Improve button contrast on hero section */
 .hero-section .btn-light {
-    background-color: white;
-    color: var(--primary-color);
-    border: 2px solid white;
+    background-color: var(--primary-color);
+    color: white;
+    border: 2px solid var(--primary-color);
     font-weight: 600;
 }
 
 .hero-section .btn-light:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: var(--primary-color);
-    border-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--medical-blue);
+    color: white;
+    border-color: var(--medical-blue);
 }
 
 .hero-section .btn-outline-light {
-    color: white;
-    border-color: white;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
     font-weight: 600;
 }
 
 .hero-section .btn-outline-light:hover {
-    background-color: white;
-    color: var(--primary-color);
-    border-color: white;
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 /* Quick Questions */
