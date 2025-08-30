@@ -1,0 +1,59 @@
+I want you to generate a full-stack web app project with the following stack:
+- Frontend: HTML, CSS, JavaScript
+- Backend: Python (Flask or FastAPI)
+- Database: MySQL
+- Deployment target: Vercel
+
+The app is for **Preventive Healthcare & Awareness** under SDG 3. 
+
+Features to implement:
+1. User registration & login system (store in MySQL).
+   - Collect: name, email, age, gender, location, lifestyle (exercise, sleep, diet).
+   - Allow users to log back in and see their dashboard.
+
+2. Personalized Health Tips.
+   - After login, AI generates preventive health tips based on the user’s lifestyle, habits, and location.
+   - Example: if user sleeps <6 hours, suggest sleep improvement tips.
+   - Example: if location is hot and dry, warn about dehydration risk.
+   - Example: if local weather is rainy, warn about malaria risk (for Africa).
+   - Use OpenAI or Hugging Face models for text generation.
+
+3. Lifestyle Tracking.
+   - Users can log daily sleep, exercise, meals, and water intake.
+   - Store in MySQL.
+   - Show weekly summary dashboard (charts using Chart.js or any JS chart library).
+   - AI gives analysis (“You exercised 2 days this week, consider 3+ days for better health”).
+
+4. Location-Based Disease Alerts.
+   - Fetch data from a free API (e.g., weather API or WHO disease outbreak feeds).
+   - AI interprets risk and shows preventive advice.
+
+5. Chatbot Assistance.
+   - AI chatbot for answering general health questions.
+   - Integrate with Hugging Face.
+
+6. Frontend UI:
+   - Responsive dashboard with navigation tabs (Home, Health Tips, Lifestyle Log, Alerts, Chatbot).
+   - Simple, clean UI with TailwindCSS or plain CSS.
+
+Tech Integration:
+- Frontend communicates with backend via REST API (Flask/FastAPI).
+- Backend handles:
+   * User auth
+   * MySQL queries
+   * API calls to external services
+   * AI integration
+- Provide sample `.env` configuration for API keys:
+   * HUGGINGFACE_API_KEY
+   * WEATHER_API_KEY
+   * MYSQL credentials
+- Ensure the app can run locally on Replit and deploy to Vercel.
+
+Deliverables:
+1. Full folder structure with frontend and backend separated.
+2. Sample `requirements.txt` for Python dependencies (Flask/FastAPI, requests, mysql-connector, huggingface).
+3. SQL schema for user & lifestyle tables.
+4. Example API routes: `/register`, `/login`, `/dashboard`, `/log-lifestyle`, `/get-tips`, `/chat`.
+5. Minimal working demo with dummy AI responses if no API key is provided.
+
+Make sure the generated project is complete, deployable, and beginner-friendly.
